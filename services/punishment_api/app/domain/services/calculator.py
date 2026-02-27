@@ -3,10 +3,9 @@ from __future__ import annotations
 from datetime import date
 from typing import Any, Dict, List, Optional, Tuple
 
-from .bootstrap import ROOT  # noqa: F401
-from .foxpro_engine import FoxProInput, calculate_count_srk
-from .localization import normalize_lang, setlang
-from .reference_loader import get_reference_service
+from ...core.i18n import normalize_lang, setlang
+from ..engines.foxpro_engine import FoxProInput, calculate_count_srk
+from ...infrastructure.loaders.reference_loader import get_reference_service
 
 
 def _parse_gender(value: Optional[str]) -> str:

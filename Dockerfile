@@ -12,4 +12,4 @@ COPY . /app
 
 ENV REFERENCE_FILE_PATH=/app/справочник_УК_обновленный_2025_06_07_1.txt
 
-CMD ["sh", "-c", "uvicorn services.punishment_api.app:app --host 0.0.0.0 --port ${PORT:-8000}"]
+CMD ["sh", "-c", "uvicorn services.punishment_api.app.main:app --host 0.0.0.0 --port ${PORT:-8000}"]

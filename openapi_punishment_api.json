@@ -1,0 +1,5007 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Punishment API",
+    "version": "0.2.0"
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": [
+          "Служебные"
+        ],
+        "summary": "Health check",
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/health/": {
+      "get": {
+        "tags": [
+          "Служебные"
+        ],
+        "summary": "Health check (alias)",
+        "operationId": "health_alias_api_health__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reference/status": {
+      "get": {
+        "tags": [
+          "Служебные"
+        ],
+        "summary": "Reference status",
+        "operationId": "reference_status_reference_status_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReferenceStatusResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reference/reload": {
+      "post": {
+        "tags": [
+          "Служебные"
+        ],
+        "summary": "Reload reference",
+        "operationId": "reference_reload_reference_reload_post",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Reference Reload Reference Reload Post"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/vectorize/": {
+      "post": {
+        "tags": [
+          "02. Векторизация справки"
+        ],
+        "summary": "Vectorize case report (mock)",
+        "operationId": "vectorize_api_vectorize__post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VectorizeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VectorizeResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/calculate": {
+      "post": {
+        "tags": [
+          "07. Расчёт наказания"
+        ],
+        "summary": "Calculate punishment",
+        "operationId": "calculate_calculate_post",
+        "parameters": [
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CalculateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/article/": {
+      "get": {
+        "tags": [
+          "07. Расчёт наказания"
+        ],
+        "summary": "Article info",
+        "operationId": "article_info_api_article__get",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "",
+              "title": "Q"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ArticleInfoResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{erdr}/": {
+      "get": {
+        "tags": [
+          "01. Материалы (TXT→Справка)"
+        ],
+        "summary": "Case search by ERDR (mock)",
+        "operationId": "case_search_api_case__erdr___get",
+        "parameters": [
+          {
+            "name": "erdr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Erdr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/verdicts/similar/": {
+      "get": {
+        "tags": [
+          "03. Похожие приговоры"
+        ],
+        "summary": "Similar verdicts (mock)",
+        "operationId": "similar_verdicts_api_case__case_id__verdicts_similar__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": 1,
+              "default": 10,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "min_similarity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 0,
+              "default": 70,
+              "title": "Min Similarity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimilarVerdictsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "03. Похожие приговоры"
+        ],
+        "summary": "Similar verdicts (vector search mock)",
+        "operationId": "similar_verdicts_vector_api_case__case_id__verdicts_similar__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimilarVerdictFilesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/acquittals/": {
+      "get": {
+        "tags": [
+          "03. Похожие приговоры"
+        ],
+        "summary": "Acquittals/returns (mock)",
+        "operationId": "acquittals_api_case__case_id__acquittals__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(acquittal|return|all)$",
+              "default": "all",
+              "title": "Type"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AcquittalsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/norms/": {
+      "get": {
+        "tags": [
+          "05. НПА"
+        ],
+        "summary": "Normative decrees (mock)",
+        "operationId": "norms_api_case__case_id__norms__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "relevance",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "pattern": "^(high|medium|all)$",
+              "default": "all",
+              "title": "Relevance"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NormsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{erdr}/norms/": {
+      "post": {
+        "tags": [
+          "05. НПА"
+        ],
+        "summary": "Norms by report (mock)",
+        "operationId": "norms_by_report_api_case__erdr__norms__post",
+        "parameters": [
+          {
+            "name": "erdr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Erdr"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NormsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/verdicts/{verdict_id}/": {
+      "get": {
+        "tags": [
+          "09. Получение приговора"
+        ],
+        "summary": "Verdict content (mock)",
+        "operationId": "verdict_content_api_verdicts__verdict_id___get",
+        "parameters": [
+          {
+            "name": "verdict_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Verdict Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerdictContentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{erdr}/verdict/": {
+      "get": {
+        "tags": [
+          "09. Получение приговора"
+        ],
+        "summary": "Latest verdict by ERDR (mock)",
+        "operationId": "latest_verdict_api_case__erdr__verdict__get",
+        "parameters": [
+          {
+            "name": "erdr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Erdr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerdictContentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{erdr}/verdicts/": {
+      "get": {
+        "tags": [
+          "09. Получение приговора"
+        ],
+        "summary": "Verdicts by ERDR (mock)",
+        "operationId": "verdicts_by_case_api_case__erdr__verdicts__get",
+        "parameters": [
+          {
+            "name": "erdr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Erdr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerdictListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/appeal-grounds/": {
+      "post": {
+        "tags": [
+          "10. Анализ приговора / итоговый документ"
+        ],
+        "summary": "Appeal grounds (mock)",
+        "operationId": "appeal_grounds_api_case__case_id__appeal_grounds__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AppealGroundsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{erdr}/report/latest/": {
+      "get": {
+        "tags": [
+          "01. Материалы (TXT→Справка)"
+        ],
+        "summary": "Latest case report (materials analysis)",
+        "operationId": "latest_report_api_case__erdr__report_latest__get",
+        "parameters": [
+          {
+            "name": "erdr",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Erdr"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportLatestResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/analyze-materials/upload/": {
+      "post": {
+        "tags": [
+          "01. Материалы (TXT→Справка)"
+        ],
+        "summary": "Analyze materials (upload text files)",
+        "operationId": "analyze_materials_upload_api_case__case_id__analyze_materials_upload__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "mode",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "default": "async",
+              "title": "Mode"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_analyze_materials_upload_api_case__case_id__analyze_materials_upload__post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeMaterialsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/analyze-materials/": {
+      "post": {
+        "tags": [
+          "01. Материалы (TXT→Справка)"
+        ],
+        "summary": "Analyze materials (async)",
+        "operationId": "analyze_materials_api_case__case_id__analyze_materials__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeMaterialsRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeMaterialsResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/risks/analyze/": {
+      "post": {
+        "tags": [
+          "06. Анализ рисков"
+        ],
+        "summary": "Analyze risks (async)",
+        "operationId": "analyze_risks_api_case__case_id__risks_analyze__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnalyzeRisksRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyzeRisksResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/verdicts/analyze/": {
+      "post": {
+        "tags": [
+          "04. Анализ приговоров"
+        ],
+        "summary": "Analyze similar verdicts (async or sync)",
+        "operationId": "analyze_verdicts_api_case__case_id__verdicts_analyze__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SimilarVerdictsAnalyzeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/verdict/analyze/": {
+      "post": {
+        "tags": [
+          "10. Анализ приговора / итоговый документ"
+        ],
+        "summary": "Analyze verdict (async or sync)",
+        "operationId": "analyze_verdict_api_case__case_id__verdict_analyze__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerdictAnalyzeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/analysis/{analysis_id}/status/": {
+      "get": {
+        "tags": [
+          "Служебные"
+        ],
+        "summary": "Analysis status",
+        "operationId": "analysis_status_api_analysis__analysis_id__status__get",
+        "parameters": [
+          {
+            "name": "analysis_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Analysis Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalysisStatusResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/analyses/": {
+      "get": {
+        "tags": [
+          "Служебные"
+        ],
+        "summary": "List analyses by case",
+        "operationId": "case_analyses_api_case__case_id__analyses__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Type"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaseAnalysesResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/risks/": {
+      "get": {
+        "tags": [
+          "06. Анализ рисков"
+        ],
+        "summary": "Latest risk analysis",
+        "operationId": "case_risks_api_case__case_id__risks__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RiskAnalysisResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/analyze-risks/": {
+      "post": {
+        "tags": [
+          "06. Анализ рисков"
+        ],
+        "summary": "Analyze risks (legacy alias)",
+        "operationId": "analyze_risks_legacy_api_case__case_id__analyze_risks__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericAnalyzeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/verdict/": {
+      "post": {
+        "tags": [
+          "10. Анализ приговора / итоговый документ"
+        ],
+        "summary": "Analyze verdict (legacy alias)",
+        "operationId": "analyze_verdict_legacy_api_case__case_id__verdict__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenericAnalyzeResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/generate/async/": {
+      "post": {
+        "tags": [
+          "08. Речь ГО"
+        ],
+        "summary": "Generate speech (async or sync)",
+        "operationId": "generate_async_api_generate_async__post",
+        "parameters": [
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateSpeechRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GenerateSpeechResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/speech/{speech_id}/status/": {
+      "get": {
+        "tags": [
+          "08. Речь ГО"
+        ],
+        "summary": "Speech status",
+        "operationId": "speech_status_api_speech__speech_id__status__get",
+        "parameters": [
+          {
+            "name": "speech_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Speech Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpeechStatusResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/speech/{speech_id}/versions/": {
+      "get": {
+        "tags": [
+          "08. Речь ГО"
+        ],
+        "summary": "Speech versions",
+        "operationId": "speech_versions_api_speech__speech_id__versions__get",
+        "parameters": [
+          {
+            "name": "speech_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Speech Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpeechVersionsResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/speech/{speech_id}/versions/{version_number}/": {
+      "get": {
+        "tags": [
+          "08. Речь ГО"
+        ],
+        "summary": "Speech version content",
+        "operationId": "speech_version_content_api_speech__speech_id__versions__version_number___get",
+        "parameters": [
+          {
+            "name": "speech_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Speech Id"
+            }
+          },
+          {
+            "name": "version_number",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "title": "Version Number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SpeechVersionContentResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/case/{case_id}/workflow/": {
+      "post": {
+        "tags": [
+          "Сквозной сценарий"
+        ],
+        "summary": "Workflow: calculation + speech",
+        "operationId": "workflow_api_case__case_id__workflow__post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "title": "Payload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Bad Request"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calculations/": {
+      "get": {
+        "tags": [
+          "07. Расчёт наказания"
+        ],
+        "summary": "Calculation history",
+        "operationId": "calculation_history_api_calculations__get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "X-User-ID",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-User-Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationHistoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/calculations/{calculation_id}/": {
+      "get": {
+        "tags": [
+          "07. Расчёт наказания"
+        ],
+        "summary": "Calculation detail",
+        "operationId": "calculation_detail_api_calculations__calculation_id___get",
+        "parameters": [
+          {
+            "name": "calculation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Calculation Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CalculationDetailResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Not Found"
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Acquittal": {
+        "properties": {
+          "article": {
+            "type": "string",
+            "title": "Article"
+          },
+          "court": {
+            "type": "string",
+            "title": "Court"
+          },
+          "result": {
+            "type": "string",
+            "title": "Result"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "acquittal",
+              "return"
+            ],
+            "title": "Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "article",
+          "court",
+          "result",
+          "reason",
+          "date",
+          "type"
+        ],
+        "title": "Acquittal"
+      },
+      "AcquittalsResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "acquittals": {
+            "items": {
+              "$ref": "#/components/schemas/Acquittal"
+            },
+            "type": "array",
+            "title": "Acquittals"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "count",
+          "acquittals"
+        ],
+        "title": "AcquittalsResponse"
+      },
+      "AnalysisListItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "analysis_type": {
+            "type": "string",
+            "title": "Analysis Type"
+          },
+          "analysis_type_display": {
+            "type": "string",
+            "title": "Analysis Type Display"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "ai_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Model"
+          },
+          "processing_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Time Ms"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "has_result": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Result"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "analysis_type",
+          "analysis_type_display",
+          "status",
+          "created_at"
+        ],
+        "title": "AnalysisListItem"
+      },
+      "AnalysisStatusResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "analysis_type": {
+            "type": "string",
+            "title": "Analysis Type"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "processing_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Time Ms"
+          },
+          "ai_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Model"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "case_id",
+          "analysis_type",
+          "status",
+          "created_at"
+        ],
+        "title": "AnalysisStatusResponse"
+      },
+      "AnalyzeMaterialsRequest": {
+        "properties": {
+          "erdr_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Erdr Number"
+          },
+          "documents": {
+            "items": {
+              "$ref": "#/components/schemas/DocumentInput"
+            },
+            "type": "array",
+            "title": "Documents"
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode",
+            "default": "async"
+          }
+        },
+        "type": "object",
+        "required": [
+          "documents"
+        ],
+        "title": "AnalyzeMaterialsRequest"
+      },
+      "AnalyzeMaterialsResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "erdr_number": {
+            "type": "string",
+            "title": "Erdr Number"
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "task_id": {
+            "type": "string",
+            "title": "Task Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "poll_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poll Url"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erdr_number",
+          "analysis_id",
+          "task_id",
+          "status"
+        ],
+        "title": "AnalyzeMaterialsResponse"
+      },
+      "AnalyzeRisksRequest": {
+        "properties": {
+          "erdr_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Erdr Number"
+          },
+          "report_text": {
+            "type": "string",
+            "title": "Report Text"
+          },
+          "similar_verdicts_summary": {
+            "type": "string",
+            "title": "Similar Verdicts Summary"
+          },
+          "norms_summary": {
+            "type": "string",
+            "title": "Norms Summary"
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mode",
+            "default": "async"
+          }
+        },
+        "type": "object",
+        "required": [
+          "report_text",
+          "similar_verdicts_summary",
+          "norms_summary"
+        ],
+        "title": "AnalyzeRisksRequest"
+      },
+      "AnalyzeRisksResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "erdr_number": {
+            "type": "string",
+            "title": "Erdr Number"
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "task_id": {
+            "type": "string",
+            "title": "Task Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "poll_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poll Url"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erdr_number",
+          "analysis_id",
+          "task_id",
+          "status"
+        ],
+        "title": "AnalyzeRisksResponse"
+      },
+      "AppealGround": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "basis": {
+            "type": "string",
+            "title": "Basis"
+          },
+          "strength": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Strength"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "text",
+          "basis",
+          "strength"
+        ],
+        "title": "AppealGround"
+      },
+      "AppealGroundsResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "appeal_grounds": {
+            "items": {
+              "$ref": "#/components/schemas/AppealGround"
+            },
+            "type": "array",
+            "title": "Appeal Grounds"
+          },
+          "recommendation": {
+            "type": "string",
+            "title": "Recommendation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "appeal_grounds",
+          "recommendation"
+        ],
+        "title": "AppealGroundsResponse"
+      },
+      "ArticleInfo": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "severity": {
+            "type": "string",
+            "title": "Severity"
+          },
+          "imprisonment_min": {
+            "type": "number",
+            "title": "Imprisonment Min"
+          },
+          "imprisonment_max": {
+            "type": "number",
+            "title": "Imprisonment Max"
+          },
+          "is_excluded": {
+            "type": "boolean",
+            "title": "Is Excluded"
+          },
+          "effective_from": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effective From"
+          },
+          "effective_to": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Effective To"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "name",
+          "severity",
+          "imprisonment_min",
+          "imprisonment_max",
+          "is_excluded"
+        ],
+        "title": "ArticleInfo"
+      },
+      "ArticleInfoResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "article": {
+            "$ref": "#/components/schemas/ArticleInfo"
+          }
+        },
+        "type": "object",
+        "required": [
+          "article"
+        ],
+        "title": "ArticleInfoResponse"
+      },
+      "Body_analyze_materials_upload_api_case__case_id__analyze_materials_upload__post": {
+        "properties": {
+          "files": {
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "type": "array",
+            "title": "Files"
+          }
+        },
+        "type": "object",
+        "required": [
+          "files"
+        ],
+        "title": "Body_analyze_materials_upload_api_case__case_id__analyze_materials_upload__post"
+      },
+      "CalculateRequest": {
+        "properties": {
+          "lang": {
+            "type": "string",
+            "title": "Lang",
+            "default": "ru"
+          },
+          "calc_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Calc Date",
+            "description": "Дата в формате ДДММГГГГ (override server date)"
+          },
+          "person": {
+            "$ref": "#/components/schemas/PersonIn"
+          },
+          "crime": {
+            "$ref": "#/components/schemas/CrimeIn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "person",
+          "crime"
+        ],
+        "title": "CalculateRequest"
+      },
+      "CalculateResponse": {
+        "properties": {
+          "lang": {
+            "type": "string",
+            "title": "Lang"
+          },
+          "aNakaz": {
+            "items": {
+              "items": {},
+              "type": "array"
+            },
+            "type": "array",
+            "title": "Anakaz"
+          },
+          "structured": {
+            "$ref": "#/components/schemas/StructuredResponse"
+          }
+        },
+        "type": "object",
+        "required": [
+          "lang",
+          "aNakaz",
+          "structured"
+        ],
+        "title": "CalculateResponse"
+      },
+      "CalculationDetail": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "case_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Id"
+          },
+          "article_code": {
+            "type": "string",
+            "title": "Article Code"
+          },
+          "article_name": {
+            "type": "string",
+            "title": "Article Name"
+          },
+          "min_months": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Min Months"
+          },
+          "max_months": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Max Months"
+          },
+          "formatted_result": {
+            "type": "string",
+            "title": "Formatted Result"
+          },
+          "calculation_log": {
+            "items": {},
+            "type": "array",
+            "title": "Calculation Log"
+          },
+          "modifiers_applied": {
+            "items": {},
+            "type": "array",
+            "title": "Modifiers Applied"
+          },
+          "warnings": {
+            "items": {},
+            "type": "array",
+            "title": "Warnings"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "created_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By"
+          },
+          "raw_response": {
+            "type": "object",
+            "title": "Raw Response",
+            "default": {}
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "article_code",
+          "article_name",
+          "formatted_result",
+          "calculation_log",
+          "modifiers_applied",
+          "warnings",
+          "created_at"
+        ],
+        "title": "CalculationDetail"
+      },
+      "CalculationDetailResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "calculation": {
+            "$ref": "#/components/schemas/CalculationDetail"
+          }
+        },
+        "type": "object",
+        "required": [
+          "calculation"
+        ],
+        "title": "CalculationDetailResponse"
+      },
+      "CalculationHistoryResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit"
+          },
+          "offset": {
+            "type": "integer",
+            "title": "Offset"
+          },
+          "calculations": {
+            "items": {
+              "$ref": "#/components/schemas/CalculationListItem"
+            },
+            "type": "array",
+            "title": "Calculations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "count",
+          "limit",
+          "offset",
+          "calculations"
+        ],
+        "title": "CalculationHistoryResponse"
+      },
+      "CalculationListItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "article_code": {
+            "type": "string",
+            "title": "Article Code"
+          },
+          "article_name": {
+            "type": "string",
+            "title": "Article Name"
+          },
+          "formatted_result": {
+            "type": "string",
+            "title": "Formatted Result"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "article_code",
+          "article_name",
+          "formatted_result",
+          "created_at"
+        ],
+        "title": "CalculationListItem"
+      },
+      "CaseAnalysesResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "analyses": {
+            "items": {
+              "$ref": "#/components/schemas/AnalysisListItem"
+            },
+            "type": "array",
+            "title": "Analyses"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "count",
+          "analyses"
+        ],
+        "title": "CaseAnalysesResponse"
+      },
+      "CaseInfo": {
+        "properties": {
+          "id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Id"
+          },
+          "erdr_number": {
+            "type": "string",
+            "title": "Erdr Number"
+          },
+          "article": {
+            "type": "string",
+            "title": "Article"
+          },
+          "article_title": {
+            "type": "string",
+            "title": "Article Title"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "status_label": {
+            "type": "string",
+            "title": "Status Label"
+          },
+          "court": {
+            "type": "string",
+            "title": "Court"
+          },
+          "judge": {
+            "type": "string",
+            "title": "Judge"
+          },
+          "region": {
+            "type": "string",
+            "title": "Region"
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit"
+          },
+          "start_date": {
+            "type": "string",
+            "title": "Start Date"
+          },
+          "prosecutor": {
+            "type": "string",
+            "title": "Prosecutor"
+          },
+          "defendant": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Defendant"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erdr_number",
+          "article",
+          "article_title",
+          "status",
+          "status_label",
+          "court",
+          "judge",
+          "region",
+          "unit",
+          "start_date",
+          "prosecutor"
+        ],
+        "title": "CaseInfo"
+      },
+      "CaseParticipant": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "birth_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Birth Date"
+          },
+          "sex": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sex"
+          }
+        },
+        "type": "object",
+        "required": [
+          "role",
+          "name"
+        ],
+        "title": "CaseParticipant"
+      },
+      "CaseResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case": {
+            "$ref": "#/components/schemas/CaseInfo"
+          },
+          "participants": {
+            "items": {
+              "$ref": "#/components/schemas/CaseParticipant"
+            },
+            "type": "array",
+            "title": "Participants"
+          },
+          "materials": {
+            "items": {
+              "$ref": "#/components/schemas/MaterialNode"
+            },
+            "type": "array",
+            "title": "Materials"
+          },
+          "similar_verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/SimilarVerdict"
+            },
+            "type": "array",
+            "title": "Similar Verdicts"
+          },
+          "acquittals": {
+            "items": {
+              "$ref": "#/components/schemas/Acquittal"
+            },
+            "type": "array",
+            "title": "Acquittals"
+          },
+          "norms": {
+            "items": {
+              "$ref": "#/components/schemas/NormativeDecree"
+            },
+            "type": "array",
+            "title": "Norms"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineItem"
+            },
+            "type": "array",
+            "title": "Timeline"
+          },
+          "interim_materials": {
+            "items": {
+              "$ref": "#/components/schemas/InterimMaterial"
+            },
+            "type": "array",
+            "title": "Interim Materials"
+          },
+          "punishment_stats": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PunishmentStats"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "case",
+          "participants",
+          "materials",
+          "similar_verdicts",
+          "acquittals",
+          "norms",
+          "timeline",
+          "interim_materials"
+        ],
+        "title": "CaseResponse"
+      },
+      "CrimeIn": {
+        "properties": {
+          "crime_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Crime Date",
+            "description": "Дата в формате ДДММГГГГ"
+          },
+          "article_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article Code"
+          },
+          "article": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article"
+          },
+          "part": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Part"
+          },
+          "paragraph": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Paragraph"
+          },
+          "article_parts": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article Parts",
+            "default": ""
+          },
+          "crime_stage": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Crime Stage",
+            "default": "3"
+          },
+          "has_mitigating": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Mitigating",
+            "default": false
+          },
+          "has_aggravating": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Aggravating",
+            "default": false
+          },
+          "special_condition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Special Condition"
+          },
+          "mitigating": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mitigating"
+          },
+          "aggravating": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Aggravating"
+          },
+          "fs1r56p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R56P1"
+          },
+          "fs1r571p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R571P1"
+          },
+          "fs1r572p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R572P1"
+          },
+          "fs1r573p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R573P1"
+          },
+          "fs1r041p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R041P1"
+          },
+          "fs1r042p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R042P1"
+          },
+          "fs1r23p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R23P1"
+          },
+          "fs1r26p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R26P1"
+          }
+        },
+        "type": "object",
+        "title": "CrimeIn"
+      },
+      "DocumentInput": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "DocumentInput"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": false
+          },
+          "error": {
+            "type": "string",
+            "title": "Error"
+          }
+        },
+        "type": "object",
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse"
+      },
+      "GenerateSpeechRequest": {
+        "properties": {
+          "erdr_number": {
+            "type": "string",
+            "title": "Erdr Number",
+            "description": "Номер ЕРДР (15 цифр)"
+          },
+          "article_code": {
+            "type": "string",
+            "title": "Article Code",
+            "description": "Код статьи из справочника (например, 1880003)"
+          },
+          "fio": {
+            "type": "string",
+            "title": "Fio",
+            "description": "ФИО подсудимого"
+          },
+          "report_text": {
+            "type": "string",
+            "title": "Report Text",
+            "description": "Текст справки по делу (из анализа материалов)"
+          },
+          "calculation_result": {
+            "type": "object",
+            "title": "Calculation Result",
+            "description": "Полный результат /calculate"
+          },
+          "similar_verdicts_summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Similar Verdicts Summary",
+            "description": "Сводка по похожим приговорам"
+          },
+          "norms_summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Norms Summary",
+            "description": "Сводка по НПА"
+          },
+          "mode": {
+            "type": "string",
+            "title": "Mode",
+            "description": "async | sync",
+            "default": "async"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erdr_number",
+          "article_code",
+          "fio",
+          "report_text",
+          "calculation_result"
+        ],
+        "title": "GenerateSpeechRequest"
+      },
+      "GenerateSpeechResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "speech_id": {
+            "type": "string",
+            "title": "Speech Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "poll_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poll Url"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "speech_id",
+          "status"
+        ],
+        "title": "GenerateSpeechResponse"
+      },
+      "GenericAnalyzeResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "task_id": {
+            "type": "string",
+            "title": "Task Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "poll_url": {
+            "type": "string",
+            "title": "Poll Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "task_id",
+          "status",
+          "poll_url"
+        ],
+        "title": "GenericAnalyzeResponse"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "default": "ok"
+          },
+          "service": {
+            "type": "string",
+            "title": "Service",
+            "default": "punishment-api"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "default": "0.1.0"
+          }
+        },
+        "type": "object",
+        "title": "HealthResponse"
+      },
+      "InterimMaterial": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "title": "Type"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "granted",
+                  "rejected"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "icon": {
+            "type": "string",
+            "title": "Icon",
+            "default": "📄"
+          },
+          "color": {
+            "type": "string",
+            "title": "Color",
+            "default": "var(--accent)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "type",
+          "title",
+          "date"
+        ],
+        "title": "InterimMaterial"
+      },
+      "MaterialNode": {
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "folder",
+              "file"
+            ],
+            "title": "Type",
+            "default": "file"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "ext": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ext"
+          },
+          "pages": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Pages"
+          },
+          "ocr": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "ok",
+                  "low"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ocr"
+          },
+          "date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Date"
+          },
+          "children": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/MaterialNode"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Children"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "title": "MaterialNode"
+      },
+      "NormativeDecree": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "subtitle": {
+            "type": "string",
+            "title": "Subtitle"
+          },
+          "relevance": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ],
+            "title": "Relevance",
+            "default": "medium"
+          },
+          "summary": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Summary"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "subtitle"
+        ],
+        "title": "NormativeDecree"
+      },
+      "NormsResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "norms": {
+            "items": {
+              "$ref": "#/components/schemas/NormativeDecree"
+            },
+            "type": "array",
+            "title": "Norms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "count",
+          "norms"
+        ],
+        "title": "NormsResponse"
+      },
+      "PersonIn": {
+        "properties": {
+          "birth_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Birth Date",
+            "description": "Дата в формате ДДММГГГГ"
+          },
+          "gender": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Gender",
+            "description": "1=male, 2=female, or male/female"
+          },
+          "is_recidivist": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Recidivist",
+            "default": false
+          },
+          "has_plea_agreement": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Plea Agreement",
+            "default": false
+          },
+          "citizenship": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Citizenship"
+          },
+          "dependents": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dependents",
+            "description": "FS1R21P1 codes, comma-separated"
+          },
+          "additional_marks": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Additional Marks",
+            "description": "FS1R231P1 codes, comma-separated"
+          },
+          "special_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Special Status"
+          },
+          "conviction_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Conviction Type"
+          },
+          "fs1r041p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R041P1"
+          },
+          "fs1r042p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R042P1"
+          },
+          "fs1r23p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R23P1"
+          },
+          "fs1r26p1": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Fs1R26P1"
+          }
+        },
+        "type": "object",
+        "title": "PersonIn"
+      },
+      "PunishmentStats": {
+        "properties": {
+          "average_term": {
+            "type": "string",
+            "title": "Average Term"
+          },
+          "median_term": {
+            "type": "string",
+            "title": "Median Term"
+          },
+          "conditional_percent": {
+            "type": "number",
+            "title": "Conditional Percent"
+          },
+          "acquittal_percent": {
+            "type": "number",
+            "title": "Acquittal Percent"
+          },
+          "return_percent": {
+            "type": "number",
+            "title": "Return Percent"
+          },
+          "distribution": {
+            "type": "object",
+            "title": "Distribution"
+          }
+        },
+        "type": "object",
+        "required": [
+          "average_term",
+          "median_term",
+          "conditional_percent",
+          "acquittal_percent",
+          "return_percent",
+          "distribution"
+        ],
+        "title": "PunishmentStats"
+      },
+      "ReferenceStatusResponse": {
+        "properties": {
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "file_path": {
+            "type": "string",
+            "title": "File Path"
+          }
+        },
+        "type": "object",
+        "required": [
+          "source",
+          "count",
+          "file_path"
+        ],
+        "title": "ReferenceStatusResponse"
+      },
+      "ReportLatestResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "erdr_number": {
+            "type": "string",
+            "title": "Erdr Number"
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "result": {
+            "type": "object",
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erdr_number",
+          "analysis_id",
+          "created_at",
+          "result"
+        ],
+        "title": "ReportLatestResponse"
+      },
+      "RiskAnalysisResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "risks": {
+            "items": {
+              "$ref": "#/components/schemas/RiskItem"
+            },
+            "type": "array",
+            "title": "Risks"
+          },
+          "high_count": {
+            "type": "integer",
+            "title": "High Count"
+          },
+          "medium_count": {
+            "type": "integer",
+            "title": "Medium Count"
+          },
+          "low_count": {
+            "type": "integer",
+            "title": "Low Count"
+          },
+          "sources": {
+            "type": "object",
+            "title": "Sources"
+          },
+          "analysis_date": {
+            "type": "string",
+            "title": "Analysis Date"
+          },
+          "analysis_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysis Id"
+          },
+          "processing_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Time Ms"
+          },
+          "raw_assessment": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Raw Assessment"
+          },
+          "action_plan": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Action Plan"
+          },
+          "comparison_with_guilty": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comparison With Guilty"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "risks",
+          "high_count",
+          "medium_count",
+          "low_count",
+          "sources",
+          "analysis_date"
+        ],
+        "title": "RiskAnalysisResponse"
+      },
+      "RiskItem": {
+        "properties": {
+          "level": {
+            "type": "string",
+            "title": "Level"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "recommendation": {
+            "type": "string",
+            "title": "Recommendation"
+          }
+        },
+        "type": "object",
+        "required": [
+          "level",
+          "title",
+          "text",
+          "recommendation"
+        ],
+        "title": "RiskItem"
+      },
+      "SimilarVerdict": {
+        "properties": {
+          "article": {
+            "type": "string",
+            "title": "Article"
+          },
+          "court": {
+            "type": "string",
+            "title": "Court"
+          },
+          "result": {
+            "type": "string",
+            "title": "Result"
+          },
+          "similarity": {
+            "type": "integer",
+            "title": "Similarity"
+          },
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "decision": {
+            "type": "string",
+            "enum": [
+              "guilty",
+              "acquittal",
+              "return"
+            ],
+            "title": "Decision",
+            "default": "guilty"
+          }
+        },
+        "type": "object",
+        "required": [
+          "article",
+          "court",
+          "result",
+          "similarity",
+          "date"
+        ],
+        "title": "SimilarVerdict"
+      },
+      "SimilarVerdictFile": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "file_name": {
+            "type": "string",
+            "title": "File Name"
+          },
+          "mime": {
+            "type": "string",
+            "title": "Mime"
+          },
+          "similarity": {
+            "type": "number",
+            "title": "Similarity"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          },
+          "text": {
+            "type": "string",
+            "title": "Text"
+          },
+          "decision": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "guilty",
+                  "acquittal",
+                  "return"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "file_name",
+          "mime",
+          "similarity",
+          "source",
+          "text"
+        ],
+        "title": "SimilarVerdictFile"
+      },
+      "SimilarVerdictFilesResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/SimilarVerdictFile"
+            },
+            "type": "array",
+            "title": "Verdicts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "count",
+          "verdicts"
+        ],
+        "title": "SimilarVerdictFilesResponse"
+      },
+      "SimilarVerdictsAnalyzeResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "analysis_type": {
+            "type": "string",
+            "title": "Analysis Type"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "poll_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poll Url"
+          },
+          "processing_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Time Ms"
+          },
+          "ai_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Model"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "case_id",
+          "analysis_type",
+          "status"
+        ],
+        "title": "SimilarVerdictsAnalyzeResponse"
+      },
+      "SimilarVerdictsResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/SimilarVerdict"
+            },
+            "type": "array",
+            "title": "Verdicts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "case_id",
+          "count",
+          "verdicts"
+        ],
+        "title": "SimilarVerdictsResponse"
+      },
+      "SpeechStatusResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "speech_id": {
+            "type": "string",
+            "title": "Speech Id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "speech_id",
+          "status",
+          "version"
+        ],
+        "title": "SpeechStatusResponse"
+      },
+      "SpeechVersionContent": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "version_number": {
+            "type": "integer",
+            "title": "Version Number"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "created_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By"
+          },
+          "ai_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Model"
+          },
+          "generation_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generation Time Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "version_number",
+          "content",
+          "created_at"
+        ],
+        "title": "SpeechVersionContent"
+      },
+      "SpeechVersionContentResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "version": {
+            "$ref": "#/components/schemas/SpeechVersionContent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "version"
+        ],
+        "title": "SpeechVersionContentResponse"
+      },
+      "SpeechVersionItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "version_number": {
+            "type": "integer",
+            "title": "Version Number"
+          },
+          "created_at": {
+            "type": "string",
+            "title": "Created At"
+          },
+          "created_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By"
+          },
+          "ai_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Model"
+          },
+          "generation_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Generation Time Ms"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "version_number",
+          "created_at"
+        ],
+        "title": "SpeechVersionItem"
+      },
+      "SpeechVersionsResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "speech_id": {
+            "type": "string",
+            "title": "Speech Id"
+          },
+          "current_version": {
+            "type": "integer",
+            "title": "Current Version"
+          },
+          "versions": {
+            "items": {
+              "$ref": "#/components/schemas/SpeechVersionItem"
+            },
+            "type": "array",
+            "title": "Versions"
+          }
+        },
+        "type": "object",
+        "required": [
+          "speech_id",
+          "current_version",
+          "versions"
+        ],
+        "title": "SpeechVersionsResponse"
+      },
+      "StructuredResponse": {
+        "properties": {
+          "punishments": {
+            "type": "object",
+            "title": "Punishments"
+          },
+          "additional_punishments": {
+            "type": "object",
+            "title": "Additional Punishments"
+          },
+          "meta": {
+            "type": "object",
+            "title": "Meta"
+          }
+        },
+        "type": "object",
+        "required": [
+          "punishments",
+          "additional_punishments",
+          "meta"
+        ],
+        "title": "StructuredResponse"
+      },
+      "TimelineItem": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "done",
+              "current",
+              "upcoming",
+              "warning",
+              "danger"
+            ],
+            "title": "Status"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail"
+          },
+          "countdown": {
+            "type": "boolean",
+            "title": "Countdown",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "title",
+          "status"
+        ],
+        "title": "TimelineItem"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "VectorizeRequest": {
+        "properties": {
+          "report_text": {
+            "type": "string",
+            "title": "Report Text",
+            "description": "Текст справки по делу"
+          },
+          "vector_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Vector Model",
+            "default": "mock-embedding-v1"
+          }
+        },
+        "type": "object",
+        "required": [
+          "report_text"
+        ],
+        "title": "VectorizeRequest"
+      },
+      "VectorizeResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "vector_model": {
+            "type": "string",
+            "title": "Vector Model"
+          },
+          "vector": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array",
+            "title": "Vector"
+          }
+        },
+        "type": "object",
+        "required": [
+          "vector_model",
+          "vector"
+        ],
+        "title": "VectorizeResponse"
+      },
+      "VerdictAnalyzeResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "analysis_id": {
+            "type": "string",
+            "title": "Analysis Id"
+          },
+          "case_id": {
+            "type": "string",
+            "title": "Case Id"
+          },
+          "analysis_type": {
+            "type": "string",
+            "title": "Analysis Type"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "poll_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poll Url"
+          },
+          "processing_time_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Processing Time Ms"
+          },
+          "ai_model": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ai Model"
+          },
+          "created_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created At"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          }
+        },
+        "type": "object",
+        "required": [
+          "analysis_id",
+          "case_id",
+          "analysis_type",
+          "status"
+        ],
+        "title": "VerdictAnalyzeResponse"
+      },
+      "VerdictContent": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "decision_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Type"
+          },
+          "decision_type_display": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Type Display"
+          },
+          "article": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article"
+          },
+          "article_code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Article Code"
+          },
+          "court": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Court"
+          },
+          "case_number": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Case Number"
+          },
+          "decision_date": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Decision Date"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "reason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reason"
+          },
+          "content": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content"
+          },
+          "source": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Source"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id"
+        ],
+        "title": "VerdictContent"
+      },
+      "VerdictContentResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "verdict": {
+            "$ref": "#/components/schemas/VerdictContent"
+          }
+        },
+        "type": "object",
+        "required": [
+          "verdict"
+        ],
+        "title": "VerdictContentResponse"
+      },
+      "VerdictListResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "erdr_number": {
+            "type": "string",
+            "title": "Erdr Number"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "verdicts": {
+            "items": {
+              "$ref": "#/components/schemas/VerdictContent"
+            },
+            "type": "array",
+            "title": "Verdicts"
+          }
+        },
+        "type": "object",
+        "required": [
+          "erdr_number",
+          "count",
+          "verdicts"
+        ],
+        "title": "VerdictListResponse"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "01. Материалы (TXT→Справка)",
+      "description": "Вход: текстовые документы → выход: справка/summary."
+    },
+    {
+      "name": "02. Векторизация справки",
+      "description": "Векторизация справки для поиска практики."
+    },
+    {
+      "name": "03. Похожие приговоры",
+      "description": "Поиск похожих приговоров (векторный запрос) и практика."
+    },
+    {
+      "name": "04. Анализ приговоров",
+      "description": "ИИ‑анализ похожих приговоров."
+    },
+    {
+      "name": "05. НПА",
+      "description": "Подбор и анализ НПА по справке."
+    },
+    {
+      "name": "06. Анализ рисков",
+      "description": "ИИ‑анализ рисков и результаты по делу."
+    },
+    {
+      "name": "07. Расчёт наказания",
+      "description": "Калькулятор наказания и история расчётов."
+    },
+    {
+      "name": "08. Речь ГО",
+      "description": "Генерация речи гособвинителя."
+    },
+    {
+      "name": "09. Получение приговора",
+      "description": "Получение приговора (по id или по ЕРДР)."
+    },
+    {
+      "name": "10. Анализ приговора / итоговый документ",
+      "description": "Анализ приговора и подготовка итогового документа."
+    },
+    {
+      "name": "Сквозной сценарий",
+      "description": "Сквозной сценарий (расчёт + речь)."
+    },
+    {
+      "name": "Служебные",
+      "description": "Служебные эндпоинты и справочники."
+    }
+  ]
+}

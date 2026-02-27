@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass
 from datetime import date, timedelta
 from pathlib import Path
 from threading import Lock
 from typing import Optional
+
+from ...core.config import settings
 
 
 @dataclass(frozen=True)
@@ -126,8 +127,7 @@ class ReferenceService:
     def _get_file_path(self) -> Path:
         if self._file_path:
             return self._file_path
-        # Default: repo root file
-        return Path(__file__).resolve().parents[2] / "справочник_УК_обновленный_2025_06_07_1.txt"
+        return Path(settings.reference_file_path)
 
     def _load_from_file(self) -> None:
         file_path = self._get_file_path()
@@ -264,6 +264,5 @@ _SERVICE: Optional[ReferenceService] = None
 def get_reference_service() -> ReferenceService:
     global _SERVICE
     if _SERVICE is None:
-        ref_path = os.environ.get("REFERENCE_FILE_PATH")
-        _SERVICE = ReferenceService(ref_path)
+        _SERVICE = ReferenceService(settings.reference_file_path)
     return _SERVICE

@@ -5,20 +5,55 @@ Standalone FastAPI service for punishment calculation with JSON input/output and
 
 ## Run locally
 ```bash
+# Optional: override reference file and data dir
 export REFERENCE_FILE_PATH="/path/to/справочник_УК_обновленный_2025_06_07_1.txt"
-uvicorn services.punishment_api.app:app --reload
+export DATA_DIR="/tmp/punishment_api_data"
+
+# New structure entrypoint
+uvicorn services.punishment_api.app.main:app --reload
+
+# Legacy alias still works
+# uvicorn services.punishment_api.app:app --reload
 ```
 
 ## Endpoints
+Полный список см. в Swagger (`/docs`) или `openapi_punishment_api.json`.
+
+Ключевые:
 - `POST /calculate`
-- `GET /reference/status`
-- `POST /reference/reload`
-- `GET /health`
+- `GET /api/article/`
+- `POST /api/case/{erdr}/analyze-materials/`
+- `POST /api/vectorize/`
+- `POST /api/case/{uuid}/verdicts/similar/`
+- `POST /api/case/{erdr}/norms/`
+- `POST /api/case/{erdr}/risks/analyze/`
+- `POST /api/generate/async/`
+- `POST /api/case/{uuid}/verdict/analyze/`
 
 ## Notes
 - RU only for now.
 - `aNakaz` is returned as 15x13 strict array plus structured JSON.
 - Full FoxPro parity is implemented based on `count_srk.prg`, `ddtomy.prg`, and `slvst.prg`.
+
+## OpenAPI
+Generate fresh schema:
+```bash
+python3 - <<'PY'
+import json
+from pathlib import Path
+import sys
+root = Path("../../../..").resolve()
+if str(root) not in sys.path:
+    sys.path.insert(0, str(root))
+from services.punishment_api.app.main import app
+schema = app.openapi()
+Path("/Users/ergalimabiev/Desktop/Новая папка 9/openapi_punishment_api.json").write_text(
+    json.dumps(schema, ensure_ascii=False, indent=2),
+    encoding="utf-8",
+)
+print("done")
+PY
+```
 
 ## Input fields (FoxPro parity)
 Provide these fields for accurate results (strings as in FoxPro forms):
