@@ -1,3 +1,5 @@
+"""Утилиты дат с совместимостью поведения FoxPro."""
+
 from __future__ import annotations
 
 from datetime import date, timedelta
@@ -6,12 +8,7 @@ from typing import Union
 
 
 def gomonth(start_date: date, months: Union[int, float]) -> date:
-    """
-    FoxPro-compatible GOMONTH.
-
-    FoxPro truncates non-integer month values. We emulate that behavior
-    by converting to int (toward zero) before adding.
-    """
+    """Сдвигает дату на число месяцев по правилам FoxPro GOMONTH."""
     months_int = int(months)
     total_months = (start_date.year * 12 + (start_date.month - 1)) + months_int
     year = total_months // 12
@@ -22,16 +19,7 @@ def gomonth(start_date: date, months: Union[int, float]) -> date:
 
 
 def ddtomy(ld_start: date, ld_stop: Union[date, int], ln_mdy: int) -> float:
-    """
-    FoxPro DDTOMY emulation.
-
-    ln_mdy:
-      1 - returns months+days/100 (ld_stop is date)
-      2 - returns full years (ld_stop is date)
-      3 - returns months+days/100 (ld_stop is days count)
-      4 - returns full months (ld_stop is days count)
-      5 - returns remaining days (ld_stop is days count)
-    """
+    """Эмулирует DDTOMY: считает годы/месяцы/дни в разных режимах `ln_mdy`."""
     if ln_mdy in (3, 4, 5):
         if not isinstance(ld_stop, int):
             raise TypeError("ln_mdy 3/4/5 expects ld_stop as days count (int)")

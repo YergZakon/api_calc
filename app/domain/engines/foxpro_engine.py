@@ -1,3 +1,5 @@
+"""Порт движка FoxPro `count_srk.prg` для расчёта санкций и ограничений."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass
@@ -5,12 +7,13 @@ from datetime import date
 from typing import Any, Dict, List, Optional, Tuple
 
 from .foxpro_dates import ddtomy, gomonth
-from .localization import dmytorus, format_number, setlang
-from .reference_loader import ArticleRecord
+from app.core.i18n import dmytorus, format_number, setlang
+from app.infrastructure.loaders.reference_loader import ArticleRecord
 
 
 @dataclass
 class FoxProInput:
+    """Нормализованный набор входных полей для алгоритма расчёта наказания."""
     crime_date: date
     article_code: str
     article_parts: str
@@ -31,6 +34,7 @@ class FoxProInput:
 
 
 def calculate_count_srk(inp: FoxProInput, slvst: ArticleRecord, lang: str = "ru") -> List[List[Any]]:
+    """Вычисляет массив `aNakaz` 15x13 по правилам УК и FoxPro-паритету."""
     a_nakaz = _default_anakaz()
 
     # Initialize default "not предусмотрено" text for main punishments
@@ -486,22 +490,26 @@ def calculate_count_srk(inp: FoxProInput, slvst: ArticleRecord, lang: str = "ru"
 
 
 def _default_anakaz() -> List[List[Any]]:
+    """Создаёт пустой массив `aNakaz` фиксированного размера 15x13."""
     return [[False, 0, 0, "", 0, 0, 0, 0, 0, 0, 0, 0, 0] for _ in range(15)]
 
 
 def _has_value(value: Optional[str]) -> bool:
+    """Проверяет, содержит ли строковое поле хотя бы одно значимое значение."""
     if value is None:
         return False
     return bool(str(value).replace(",", "").strip())
 
 
 def _has_code(haystack: Optional[str], code: str) -> bool:
+    """Проверяет наличие кода в строке кодов/флагов."""
     if not haystack:
         return False
     return code in str(haystack)
 
 
 def _val(value: Optional[str]) -> Optional[float]:
+    """Безопасно извлекает число из строки формата справочника."""
     if value is None:
         return None
     s = str(value).strip()
@@ -522,18 +530,22 @@ def _val(value: Optional[str]) -> Optional[float]:
 
 
 def _evl(value: Optional[float], default: float) -> float:
+    """Возвращает `default`, если значение отсутствует."""
     return default if value is None else value
 
 
 def _apply_modifiers(value: float, ln_del_udp: float, ln_mnoj_udp: float, ln_del56: float, ln_mnoj56: float, ln_del: float, ln_mnoj: float) -> float:
+    """Применяет коэффициенты снижения/увеличения срока к базовому значению."""
     return value / ln_del_udp * ln_mnoj_udp / ln_del56 * ln_mnoj56 / ln_del * ln_mnoj
 
 
 def _floor2(value: float) -> float:
+    """Округляет число вниз до двух знаков после запятой."""
     return int(value * 100) / 100
 
 
 def _format_range(min_val: float, max_val: float, unit: str) -> str:
+    """Форматирует диапазон значений в текст `от ... до ...` или фиксированное значение."""
     if min_val != max_val:
         prefix = f"от {format_number(min_val)} " if min_val > 0 else ""
         return f"{prefix}до {format_number(max_val)} {unit}".strip()
@@ -541,6 +553,7 @@ def _format_range(min_val: float, max_val: float, unit: str) -> str:
 
 
 def _format_term(years: int, months: int, days: int, padezh: str) -> str:
+    """Форматирует срок наказания с корректными русскими словоформами."""
     parts = []
     if years > 0:
         parts.append(f"{years} {dmytorus(years, 3, padezh)}")
@@ -552,10 +565,12 @@ def _format_term(years: int, months: int, days: int, padezh: str) -> str:
 
 
 def _format_range_term(lc_min: str, lc_max: str, min_val: float, max_val: float) -> str:
+    """Собирает строку диапазона сроков для вывода пользователю."""
     if min_val != max_val:
         return f"от {lc_min} до {lc_max}".strip()
     return lc_max
 
 
 def _between(value: str, low: str, high: str) -> bool:
+    """Проверяет, входит ли строковое значение в лексикографический диапазон."""
     return low <= value <= high

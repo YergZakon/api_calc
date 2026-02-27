@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "punishment-api"
+version = "0.1.0"
+description = "FastAPI service for criminal punishment range calculation"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi==0.133.1",
+  "pydantic==2.12.5",
+  "pydantic-settings==2.13.1",
+  "python-dotenv==1.2.1",
+  "uvicorn==0.41.0",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

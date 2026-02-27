@@ -6,7 +6,7 @@ Standalone FastAPI service for punishment calculation with JSON input/output and
 ## Run locally
 ```bash
 export REFERENCE_FILE_PATH="/path/to/справочник_УК_обновленный_2025_06_07_1.txt"
-uvicorn services.punishment_api.app:app --reload
+uvicorn app.main:app --reload
 ```
 
 ## Endpoints

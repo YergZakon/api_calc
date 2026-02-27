@@ -1,7 +1,10 @@
+"""Локализация и русские словоформы для сообщений движка расчёта."""
+
 SUPPORTED_LANGS = {"ru"}
 
 
 def normalize_lang(lang: str) -> str:
+    """Нормализует код языка; сейчас всегда возвращает поддерживаемый `ru`."""
     if not lang:
         return "ru"
     lang = lang.lower().strip()
@@ -53,6 +56,7 @@ _USER_DICT_RU: dict[int, str] = {
 
 
 def setlang(message_id: int, lang: str = "ru") -> str:
+    """Возвращает локализованное сообщение по числовому идентификатору."""
     lang = normalize_lang(lang)
     if lang != "ru":
         return str(message_id)
@@ -60,6 +64,7 @@ def setlang(message_id: int, lang: str = "ru") -> str:
 
 
 def _form_i(number: int, form1: str, form2: str, form5: str) -> str:
+    """Выбирает форму слова для именительного падежа по числу."""
     n = abs(int(number))
     if 11 <= n % 100 <= 14:
         return form5
@@ -72,6 +77,7 @@ def _form_i(number: int, form1: str, form2: str, form5: str) -> str:
 
 
 def _form_d(number: int, form1: str, form5: str) -> str:
+    """Выбирает форму слова для родительного падежа по числу."""
     n = abs(int(number))
     if 11 <= n % 100 <= 14:
         return form5
@@ -82,12 +88,7 @@ def _form_d(number: int, form1: str, form5: str) -> str:
 
 
 def dmytorus(number: int, unit_type: int, padezh: str) -> str:
-    """
-    FoxPro DMYTORUS emulation.
-
-    unit_type: 1=days, 2=months, 3=years
-    padezh: 'I' (nominative) or 'D' (genitive for ranges)
-    """
+    """Эмулирует FoxPro-функцию DMYTORUS для дней/месяцев/лет."""
     padezh = (padezh or "I").upper()
     if unit_type == 1:
         if padezh == "D":
@@ -105,10 +106,7 @@ def dmytorus(number: int, unit_type: int, padezh: str) -> str:
 
 
 def format_number(value: float) -> str:
-    """
-    Format number similar to FoxPro TRANSFORM usage in count_srk.
-    Integers are rendered without decimals, otherwise up to 2 decimals.
-    """
+    """Форматирует число в стиле FoxPro TRANSFORM (до 2 знаков после запятой)."""
     if value is None:
         return "0"
     if float(value).is_integer() and float(value) != 0:

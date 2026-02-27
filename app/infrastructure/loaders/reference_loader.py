@@ -1,3 +1,5 @@
+"""Загрузка и кеширование справочника УК из TXT-файла."""
+
 from __future__ import annotations
 
 import os
@@ -10,6 +12,7 @@ from typing import Optional
 
 @dataclass(frozen=True)
 class ArticleRecord:
+    """Запись санкции по статье/части с полями, эквивалентными колонкам справочника."""
     article_code: str
     hard: str
     prest: str
@@ -36,6 +39,7 @@ class ArticleRecord:
 
 
 class ReferenceService:
+    """Сервис доступа к справочнику: чтение, декодирование, выбор записи по дате."""
     ENCODING_FIXES = {
         "8A:;NG5=0": "Исключена",
         "8A:;NG5=": "Исключен",
@@ -44,6 +48,7 @@ class ReferenceService:
     }
 
     def __init__(self, file_path: Optional[str] = None):
+        """Инициализирует сервис и лениво подготавливает внутренний кеш записей."""
         self._lock = Lock()
         self._file_path = Path(file_path) if file_path else None
         self._records: dict[str, list[ArticleRecord]] = {}
@@ -52,6 +57,7 @@ class ReferenceService:
         self._ensure_loaded()
 
     def _ensure_loaded(self) -> None:
+        """Гарантирует однократную загрузку справочника в память."""
         with self._lock:
             if self._loaded:
                 return
@@ -60,6 +66,7 @@ class ReferenceService:
             self._source = "file"
 
     def reload(self) -> None:
+        """Сбрасывает кеш и повторно загружает справочник из файла."""
         with self._lock:
             self._records = {}
             self._loaded = False
@@ -67,20 +74,24 @@ class ReferenceService:
 
     @property
     def source(self) -> str:
+        """Источник данных справочника (например, `file`)."""
         return self._source
 
     @property
     def file_path(self) -> str:
+        """Путь к файлу справочника, используемому сервисом."""
         if self._file_path:
             return str(self._file_path)
         return "(default)"
 
     @property
     def count(self) -> int:
+        """Количество загруженных записей справочника."""
         self._ensure_loaded()
         return sum(len(v) for v in self._records.values())
 
     def get_by_code(self, code: str, crime_date: date) -> Optional[ArticleRecord]:
+        """Возвращает запись статьи, актуальную на дату преступления."""
         self._ensure_loaded()
         records = self._records.get(code or "")
         if not records:
@@ -99,12 +110,14 @@ class ReferenceService:
         return records[0]
 
     def _get_file_path(self) -> Path:
+        """Возвращает явный путь к справочнику или путь по умолчанию."""
         if self._file_path:
             return self._file_path
         # Default: repo root file
         return Path(__file__).resolve().parents[2] / "справочник_УК_обновленный_2025_06_07_1.txt"
 
     def _load_from_file(self) -> None:
+        """Читает и парсит справочник из TXT-файла."""
         file_path = self._get_file_path()
         if not file_path.exists():
             return
@@ -112,6 +125,7 @@ class ReferenceService:
         self._parse_content(content)
 
     def _read_file(self, file_path: Path) -> str:
+        """Читает бинарный файл и декодирует строки/поля в текст UTF-8."""
         with open(file_path, "rb") as f:
             raw_data = f.read()
 
@@ -134,6 +148,7 @@ class ReferenceService:
         return content
 
     def _decode_field(self, field: bytes, field_idx: int) -> str:
+        """Декодирует поле строки с учётом типа колонки."""
         if not field:
             return ""
         if field_idx == 0:
@@ -146,6 +161,7 @@ class ReferenceService:
             return field.decode("latin-1", errors="replace")
 
     def _decode_stat_field(self, field: bytes) -> str:
+        """Восстанавливает кодировку поля `stat` с артикулом статьи."""
         restored = bytearray()
         for byte in field:
             if byte == 0x20 or byte == 0x2E or 0x30 <= byte <= 0x39:
@@ -164,6 +180,7 @@ class ReferenceService:
             return bytes(restored).decode("cp1251", errors="replace")
 
     def _decode_text_field(self, field: bytes) -> str:
+        """Декодирует текстовые поля, сохранённые в сдвинутой кодировке."""
         restored = bytearray()
         for byte in field:
             if byte in (0x20, 0x09, 0x0A, 0x0D):
@@ -176,6 +193,7 @@ class ReferenceService:
             return bytes(restored).decode("cp1251", errors="replace")
 
     def _parse_content(self, content: str) -> None:
+        """Разбирает весь текст справочника на строки и записи."""
         lines = content.splitlines()
         if not lines:
             return
@@ -186,6 +204,7 @@ class ReferenceService:
             self._parse_row(line, header)
 
     def _parse_row(self, line: str, header: list[str]) -> None:
+        """Преобразует строку табличного справочника в `ArticleRecord`."""
         fields = line.split("\t")
         row = {col: (fields[i].strip() if i < len(fields) else "") for i, col in enumerate(header)}
 
@@ -223,6 +242,7 @@ class ReferenceService:
 
 
 def _parse_date(value: str) -> Optional[date]:
+    """Парсит дату формата `dd.mm.yyyy` из справочника."""
     if not value or value == "-" or value == "--":
         return None
     try:
@@ -236,6 +256,7 @@ _SERVICE: Optional[ReferenceService] = None
 
 
 def get_reference_service() -> ReferenceService:
+    """Возвращает singleton-экземпляр `ReferenceService` для приложения."""
     global _SERVICE
     if _SERVICE is None:
         ref_path = os.environ.get("REFERENCE_FILE_PATH")
