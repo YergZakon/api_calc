@@ -55,9 +55,9 @@ def test_article_and_calculate_and_history():
 
     calc_payload = {
         "lang": "ru",
-        "person": {"birth_date": "24102001", "gender": "1", "citizenship": "1"},
+        "person": {"birth_date": "2001-10-24", "gender": "1", "citizenship": "1"},
         "crime": {
-            "crime_date": "12092025",
+            "crime_date": "2025-09-12",
             "article_code": "0990001",
             "article_parts": "01",
             "crime_stage": "3",
@@ -220,9 +220,9 @@ def test_speech_and_verdict_analysis():
     # Calculate (for speech input)
     calc_payload = {
         "lang": "ru",
-        "person": {"birth_date": "24102001", "gender": "1", "citizenship": "1"},
+        "person": {"birth_date": "2001-10-24", "gender": "1", "citizenship": "1"},
         "crime": {
-            "crime_date": "12092025",
+            "crime_date": "2025-09-12",
             "article_code": "0990001",
             "article_parts": "01",
             "crime_stage": "3",
@@ -289,7 +289,7 @@ def test_workflow():
     case_id = "case-uuid-004"
     payload = {
         "crime": {"article_code": "0990001", "article_parts": "01", "crime_stage": "3"},
-        "person": {"birth_date": "24102001", "gender": "1", "citizenship": "1"},
+        "person": {"birth_date": "2001-10-24", "gender": "1", "citizenship": "1"},
         "auto_generate_speech": True,
         "speech_params": {
             "erdr_number": "012345678901234",

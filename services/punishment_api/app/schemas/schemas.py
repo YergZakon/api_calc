@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, field_validator
 
 
-def _parse_ddmmyyyy(value: Any) -> Optional[date]:
+def _parse_iso_date(value: Any) -> Optional[date]:
     if value is None:
         return None
     if isinstance(value, date):
@@ -17,20 +17,15 @@ def _parse_ddmmyyyy(value: Any) -> Optional[date]:
         raw = value.strip()
         if not raw:
             return None
-        if len(raw) == 8 and raw.isdigit():
-            day = int(raw[:2])
-            month = int(raw[2:4])
-            year = int(raw[4:])
-            try:
-                return date(year, month, day)
-            except ValueError as exc:
-                raise ValueError("Неверный формат даты. Требуется ДДММГГГГ") from exc
-        raise ValueError("Неверный формат даты. Требуется ДДММГГГГ")
-    raise ValueError("Неверный формат даты. Требуется ДДММГГГГ")
+        try:
+            return date.fromisoformat(raw)
+        except ValueError as exc:
+            raise ValueError("Неверный формат даты. Требуется YYYY-MM-DD") from exc
+    raise ValueError("Неверный формат даты. Требуется YYYY-MM-DD")
 
 
 class PersonIn(BaseModel):
-    birth_date: Optional[date] = Field(default=None, description="Дата в формате ДДММГГГГ")
+    birth_date: Optional[date] = Field(default=None, description="Дата рождения (YYYY-MM-DD)")
     gender: Optional[str] = Field(default=None, description="1=male, 2=female, or male/female")
     is_recidivist: Optional[bool] = Field(default=False)
     has_plea_agreement: Optional[bool] = Field(default=False)
@@ -49,11 +44,11 @@ class PersonIn(BaseModel):
     @field_validator("birth_date", mode="before")
     @classmethod
     def _validate_birth_date(cls, value: Any) -> Optional[date]:
-        return _parse_ddmmyyyy(value)
+        return _parse_iso_date(value)
 
 
 class CrimeIn(BaseModel):
-    crime_date: Optional[date] = Field(default=None, description="Дата в формате ДДММГГГГ")
+    crime_date: Optional[date] = Field(default=None, description="Дата преступления (YYYY-MM-DD)")
     article_code: Optional[str] = Field(default=None)
     article: Optional[str] = Field(default=None)
     part: Optional[str] = Field(default=None)
@@ -80,14 +75,14 @@ class CrimeIn(BaseModel):
     @field_validator("crime_date", mode="before")
     @classmethod
     def _validate_crime_date(cls, value: Any) -> Optional[date]:
-        return _parse_ddmmyyyy(value)
+        return _parse_iso_date(value)
 
 
 class CalculateRequest(BaseModel):
     lang: str = Field(default="ru")
     calc_date: Optional[date] = Field(
         default=None,
-        description="Дата в формате ДДММГГГГ (override server date)",
+        description="Дата расчёта (YYYY-MM-DD, override server date)",
     )
     person: PersonIn
     crime: CrimeIn
@@ -95,7 +90,7 @@ class CalculateRequest(BaseModel):
     @field_validator("calc_date", mode="before")
     @classmethod
     def _validate_calc_date(cls, value: Any) -> Optional[date]:
-        return _parse_ddmmyyyy(value)
+        return _parse_iso_date(value)
 
 
 class PunishmentItem(BaseModel):
@@ -165,4 +160,20 @@ class ErrorResponse(BaseModel):
 class HealthResponse(BaseModel):
     status: str = "ok"
     service: str = "punishment-api"
-    version: str = "0.1.0"
+    version: str = "0.2.0"
+
+
+class ReferenceReloadResponse(BaseModel):
+    status: str
+    count: int
+    source: str
+
+
+class WorkflowResponse(BaseModel):
+    success: bool = True
+    calculation_id: str
+    calculation: Dict[str, Any]
+    speech_id: Optional[str] = None
+    task_id: Optional[str] = None
+    speech_status: Optional[str] = None
+    poll_url: Optional[str] = None

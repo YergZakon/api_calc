@@ -81,8 +81,17 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "title": "Response Reference Reload Reference Reload Post"
+                  "$ref": "#/components/schemas/ReferenceReloadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
@@ -1760,7 +1769,9 @@
             "description": "Successful Response",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "$ref": "#/components/schemas/WorkflowResponse"
+                }
               }
             }
           },
@@ -2529,7 +2540,7 @@
               }
             ],
             "title": "Calc Date",
-            "description": "Дата в формате ДДММГГГГ (override server date)"
+            "description": "Дата расчёта (YYYY-MM-DD, override server date)"
           },
           "person": {
             "$ref": "#/components/schemas/PersonIn"
@@ -3009,7 +3020,7 @@
               }
             ],
             "title": "Crime Date",
-            "description": "Дата в формате ДДММГГГГ"
+            "description": "Дата преступления (YYYY-MM-DD)"
           },
           "article_code": {
             "anyOf": [
@@ -3460,7 +3471,7 @@
           "version": {
             "type": "string",
             "title": "Version",
-            "default": "0.1.0"
+            "default": "0.2.0"
           }
         },
         "type": "object",
@@ -3681,7 +3692,7 @@
               }
             ],
             "title": "Birth Date",
-            "description": "Дата в формате ДДММГГГГ"
+            "description": "Дата рождения (YYYY-MM-DD)"
           },
           "gender": {
             "anyOf": [
@@ -3861,6 +3872,29 @@
           "distribution"
         ],
         "title": "PunishmentStats"
+      },
+      "ReferenceReloadResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "count": {
+            "type": "integer",
+            "title": "Count"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source"
+          }
+        },
+        "type": "object",
+        "required": [
+          "status",
+          "count",
+          "source"
+        ],
+        "title": "ReferenceReloadResponse"
       },
       "ReferenceStatusResponse": {
         "properties": {
@@ -4951,6 +4985,73 @@
           "verdicts"
         ],
         "title": "VerdictListResponse"
+      },
+      "WorkflowResponse": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success",
+            "default": true
+          },
+          "calculation_id": {
+            "type": "string",
+            "title": "Calculation Id"
+          },
+          "calculation": {
+            "type": "object",
+            "title": "Calculation"
+          },
+          "speech_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Speech Id"
+          },
+          "task_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Task Id"
+          },
+          "speech_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Speech Status"
+          },
+          "poll_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Poll Url"
+          }
+        },
+        "type": "object",
+        "required": [
+          "calculation_id",
+          "calculation"
+        ],
+        "title": "WorkflowResponse"
       }
     }
   },

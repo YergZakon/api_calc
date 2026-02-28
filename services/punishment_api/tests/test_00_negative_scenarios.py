@@ -19,8 +19,8 @@ def test_calculate_invalid_birth_date_format():
     client = _client()
     payload = {
         "lang": "ru",
-        "person": {"birth_date": "2025-01-01", "gender": "1", "citizenship": "1"},
-        "crime": {"crime_date": "12092025", "article_code": "0990001", "article_parts": "01"},
+        "person": {"birth_date": "24102001", "gender": "1", "citizenship": "1"},
+        "crime": {"crime_date": "2025-09-12", "article_code": "0990001", "article_parts": "01"},
     }
     r = client.post("/calculate", json=payload)
     assert r.status_code == 422
@@ -31,8 +31,8 @@ def test_calculate_invalid_crime_date_format():
     client = _client()
     payload = {
         "lang": "ru",
-        "person": {"birth_date": "24102001", "gender": "1", "citizenship": "1"},
-        "crime": {"crime_date": "31132025", "article_code": "0990001", "article_parts": "01"},
+        "person": {"birth_date": "2001-10-24", "gender": "1", "citizenship": "1"},
+        "crime": {"crime_date": "12092025", "article_code": "0990001", "article_parts": "01"},
     }
     r = client.post("/calculate", json=payload)
     assert r.status_code == 422

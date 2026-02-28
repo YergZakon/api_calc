@@ -111,9 +111,9 @@ def test_pipeline_chain_happy_path():
     # 7) Расчёт наказания
     calc_payload = {
         "lang": "ru",
-        "person": {"birth_date": "24102001", "gender": "1", "citizenship": "1"},
+        "person": {"birth_date": "2001-10-24", "gender": "1", "citizenship": "1"},
         "crime": {
-            "crime_date": "12092025",
+            "crime_date": "2025-09-12",
             "article_code": "0990001",
             "article_parts": "01",
             "crime_stage": "3",

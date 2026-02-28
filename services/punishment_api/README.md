@@ -47,7 +47,7 @@ if str(root) not in sys.path:
     sys.path.insert(0, str(root))
 from services.punishment_api.app.main import app
 schema = app.openapi()
-Path("/Users/ergalimabiev/Desktop/Новая папка 9/openapi_punishment_api.json").write_text(
+Path(root / "openapi_punishment_api.json").write_text(
     json.dumps(schema, ensure_ascii=False, indent=2),
     encoding="utf-8",
 )
@@ -57,6 +57,7 @@ PY
 
 ## Input fields (FoxPro parity)
 Provide these fields for accurate results (strings as in FoxPro forms):
+- Date format for API input: `YYYY-MM-DD`
 - `crime.crime_date` (FS1R51P2)
 - `crime.article_code` (FS1R54P1)
 - `crime.article_parts` (FS1R54P2, comma-separated)

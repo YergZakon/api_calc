@@ -80,9 +80,11 @@ from ...schemas.schemas import (
     CalculateResponse,
     ErrorResponse,
     HealthResponse,
+    ReferenceReloadResponse,
     ReferenceStatusResponse,
     VectorizeRequest,
     VectorizeResponse,
+    WorkflowResponse,
 )
 from ...schemas.speech_schemas import (
     GenerateSpeechRequest,
@@ -206,13 +208,15 @@ def reference_status() -> ReferenceStatusResponse:
 
 @router.post(
     "/reference/reload",
+    response_model=ReferenceReloadResponse,
     tags=[TAG_SERVICE],
     summary="Reload reference",
+    responses={400: {"model": ErrorResponse}},
 )
-def reference_reload() -> dict:
+def reference_reload() -> ReferenceReloadResponse:
     ref = get_reference_service()
     ref.reload()
-    return {"status": "reloaded", "count": ref.count, "source": ref.source}
+    return ReferenceReloadResponse(status="reloaded", count=ref.count, source=ref.source)
 
 
 @router.post(
@@ -1238,6 +1242,7 @@ def speech_version_content(speech_id: str, version_number: int) -> SpeechVersion
 
 @router.post(
     "/api/case/{case_id}/workflow/",
+    response_model=WorkflowResponse,
     tags=[TAG_WORKFLOW],
     summary="Workflow: calculation + speech",
     responses={400: {"model": ErrorResponse}, 404: {"model": ErrorResponse}},
