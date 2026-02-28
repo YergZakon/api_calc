@@ -23,7 +23,7 @@ class Settings(BaseSettings):
     DEBUG_MODE: bool = True
 
     reference_file_path: str = str(PROJECT_ROOT / "справочник_УК_обновленный_2025_06_07_1.txt")
-    data_dir: str = str(BASE_DIR / "data")
+    data_dir: str = "/tmp/punishment_api_data"
 
     model_config = SettingsConfigDict(
         env_file=str(BASE_DIR / ".env"),
